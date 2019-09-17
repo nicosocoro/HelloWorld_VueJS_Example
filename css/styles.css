@@ -1,0 +1,13 @@
+/* Tags */
+small {
+    font-size: 0.6em;
+}
+
+/* Classes */
+.completed-task {
+    color: green;
+}
+
+.not-completed-task {
+    color: red;
+}
