@@ -5,9 +5,14 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Vue JS - First Example</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <!-- 
+        Has 'app' id to be attach by VueJS
+        All inside this '#app' will be affected by VueJS 
+    -->
     <div id="app">
         <!-- Show variable 'message' -->
         <h1>{{message}}</h1>
@@ -15,19 +20,35 @@
         <!-- Loop over an array example -->
         <h2>New tasks</h2>
         <ul>
+            <!-- 
+                List of all tasks
+                Display each title and completition's status 
+            -->
             <li v-for="task in tasks">
                 <span v-text="task.title"></span>
                 <small v-if="task.completed" class="completed-task">DONE</small>
                 <small v-else class="not-completed-task">Not done yet</small>
+            </li>
+
+            <br/>
+
+            <!-- Ask for a new task's title -->
+            <li class="form-inline">
+                <input v-on:keyup.enter="addTasks" placeholder="Give a title and press 'enter'" v-model="newTaskTitle" type="text" class="form-control">
             </li>
         </ul>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
-        new Vue({
+        // Initialize VueJS
+        var app = new Vue({
             el: "#app",
+
+            // Here goes all of the variables you want to use to
+            // give dynamism to the app
             data: {
+                newTaskTitle: "",
                 message: "Hello, World!",
                 tasks: [
                     {
@@ -42,7 +63,28 @@
                         title: "Create an Azure Function example",
                         completed: false
                     }
-                ]
+                ],
+            },
+
+            // here goes all of the methods used by VueJS
+            methods: {
+                // add new task to Task's array
+                addTasks: function() {
+                    //only add tasks with non-empty title
+                    if (this.newTaskTitle.length == 0) 
+                    {
+                        alert("Must give a title to the new task");
+                        return;
+                    }
+
+                    this.tasks.push({
+                        title: this.newTaskTitle, 
+                        completed: false //by default, assume it's not completed yet
+                    });
+
+                    
+                    this.newTaskTitle = "";
+                }
             }
         });
     </script>
